@@ -3,6 +3,7 @@ package TestMotor;
 import org.lwjgl.opengl.Display;
 
 import motorRenderizado.ManagerPantalla;
+import shaders.ShaderEstatico;
 
 public class LoopPrincipal {
 	public static void main(String[] args) {
@@ -10,6 +11,7 @@ public class LoopPrincipal {
 		
 		Cargador cargador = new Cargador();
 		Renderizador renderizador = new Renderizador();
+		ShaderEstatico shader = new ShaderEstatico();
 		
 		float[] vertices = { 
 				-0.5f, 0.5f, 0f, //V0
@@ -27,10 +29,14 @@ public class LoopPrincipal {
 		
 		while(!Display.isCloseRequested()) {
 			renderizador.preparar();
-			
+			shader.comenzar();
 			renderizador.render(modelo);
+			shader.parar();
 			ManagerPantalla.actualizarPantalla();
 		}		
+		
+		shader.limpiar();
+		cargador.limpiar();
 		ManagerPantalla.cerrarPantalla();
 	}
 }
