@@ -1,8 +1,11 @@
 #version 400 core
 
-in vec3 color;
+in vec2 pasar_coordsTextura;
+
 out vec4 color_fuera;
 
+uniform sampler2D sampleadorTextura;
+
 void main(void) {
-	color_fuera = vec4(color, 1.0);
+	color_fuera = texture(sampleadorTextura, pasar_coordsTextura);
 }

@@ -2,8 +2,11 @@ package TestMotor;
 
 import org.lwjgl.opengl.Display;
 
+import modelos.ModeloConTextura;
+import modelos.ModeloRaw;
 import motorRenderizado.ManagerPantalla;
 import shaders.ShaderEstatico;
+import texturas.TexturaModelo;
 
 public class LoopPrincipal {
 	public static void main(String[] args) {
@@ -25,12 +28,21 @@ public class LoopPrincipal {
 				3, 1, 2
 		};
 		
-		ModeloRaw modelo = cargador.cargarEnVAO(vertices, indices);
+		float[] coordsTextura = {
+				0, 0, //V0
+				0, 1, //V1
+				1, 1, //V2
+				1, 0 //V3
+		};
+		
+		ModeloRaw modelo = cargador.cargarEnVAO(vertices, coordsTextura, indices);
+		TexturaModelo textura = new TexturaModelo(cargador.cargarTextura("imagen"));
+		ModeloConTextura modeloConTextura = new ModeloConTextura(modelo, textura);
 		
 		while(!Display.isCloseRequested()) {
 			renderizador.preparar();
 			shader.comenzar();
-			renderizador.render(modelo);
+			renderizador.render(modeloConTextura);
 			shader.parar();
 			ManagerPantalla.actualizarPantalla();
 		}		

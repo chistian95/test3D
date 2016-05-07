@@ -11,5 +11,6 @@ public class ShaderEstatico extends ProgramaShader {
 	@Override
 	protected void bindAtributos() {
 		super.bindAtributos(0, "posicion");
+		super.bindAtributos(1, "coordsTextura");
 	}
 }
