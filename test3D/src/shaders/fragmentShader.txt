@@ -18,7 +18,7 @@ void main(void) {
 	vec3 uniVectorLuz = normalize(vectorLuz);
 	
 	float nDotl = dot(uniNormal, uniVectorLuz);
-	float brillo = max(nDotl, 0.0);
+	float brillo = max(nDotl, 0.2);
 	vec3 diffuse = brillo * colorLuz;
 	
 	vec3 uniVectorCamara = normalize(vectorCamara);

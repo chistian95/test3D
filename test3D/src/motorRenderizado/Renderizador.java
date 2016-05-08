@@ -1,5 +1,8 @@
 package motorRenderizado;
 
+import java.util.List;
+import java.util.Map;
+
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
@@ -20,8 +23,12 @@ public class Renderizador {
 	private static final float PLANO_LEJOS = 1000;
 	
 	private Matrix4f matrizProyeccion;	
+	private ShaderEstatico shader;
 	
 	public Renderizador(ShaderEstatico shader) {
+		this.shader = shader;
+		GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glCullFace(GL11.GL_BACK);
 		crearMatrizProyeccion();
 		shader.comenzar();
 		shader.cargarMatrizProyeccion(matrizProyeccion);
@@ -31,27 +38,43 @@ public class Renderizador {
 	public void preparar() {
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-		GL11.glClearColor(1, 0, 0, 1);		
+		GL11.glClearColor(0, 0, 1, 1);		
 	}
 	
-	public void render(Entidad entidad, ShaderEstatico shader) {
-		ModeloConTextura modelo = entidad.getModelo();
+	public void render(Map<ModeloConTextura, List<Entidad>> entidades) {
+		for(ModeloConTextura modelo : entidades.keySet()) {
+			preararModeloContextura(modelo);
+			List<Entidad> batch = entidades.get(modelo);
+			for(Entidad entidad : batch) {
+				prepararInstancia(entidad);
+				GL11.glDrawElements(GL11.GL_TRIANGLES, modelo.getModeloRaw().getVertexCont(), GL11.GL_UNSIGNED_INT, 0);
+			}
+			unbindModeloConTextura();
+		}
+	}
+	
+	private void preararModeloContextura(ModeloConTextura modelo) {
 		ModeloRaw modeloRaw = modelo.getModeloRaw();
 		GL30.glBindVertexArray(modeloRaw.getVaoID());
 		GL20.glEnableVertexAttribArray(0);
 		GL20.glEnableVertexAttribArray(1);
 		GL20.glEnableVertexAttribArray(2);
-		Matrix4f matrizTransformacion = Mates.crearMatrizTransformacion(entidad.getPosicion(), entidad.getRotX(), entidad.getRotY(), entidad.getRotZ(), entidad.getEscala());
-		shader.cargarMatrizTransformacion(matrizTransformacion);
 		TexturaModelo textura = modelo.getTextura();
 		shader.cargarBrillo(textura.getShineDamper(), textura.getReflejo());
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, modelo.getTextura().getIdTextura());
-		GL11.glDrawElements(GL11.GL_TRIANGLES, modeloRaw.getVertexCont(), GL11.GL_UNSIGNED_INT, 0);
+	}
+	
+	private void unbindModeloConTextura() {
 		GL20.glDisableVertexAttribArray(0);
 		GL20.glDisableVertexAttribArray(1);
 		GL20.glDisableVertexAttribArray(2);
 		GL30.glBindVertexArray(0);
+	}
+	
+	private void prepararInstancia(Entidad entidad) {
+		Matrix4f matrizTransformacion = Mates.crearMatrizTransformacion(entidad.getPosicion(), entidad.getRotX(), entidad.getRotY(), entidad.getRotZ(), entidad.getEscala());
+		shader.cargarMatrizTransformacion(matrizTransformacion);
 	}
 	
 	private void crearMatrizProyeccion() {

@@ -1,5 +1,9 @@
 package TestMotor;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -11,45 +15,50 @@ import modelos.ModeloRaw;
 import motorRenderizado.Cargador;
 import motorRenderizado.CargadorOBJ;
 import motorRenderizado.ManagerPantalla;
-import motorRenderizado.Renderizador;
-import shaders.ShaderEstatico;
+import motorRenderizado.RenderizadorMaster;
 import texturas.TexturaModelo;
 
 public class LoopPrincipal {
 	public static void main(String[] args) {
-		ManagerPantalla.crearPantalla();
-		
-		Cargador cargador = new Cargador();
-		ShaderEstatico shader = new ShaderEstatico();
-		Renderizador renderizador = new Renderizador(shader);
+		ManagerPantalla.crearPantalla();		
+		Cargador cargador = new Cargador();		
 		
 		ModeloRaw modelo = CargadorOBJ.cargarModeloOBJ("dragon", cargador);
-		TexturaModelo textura = new TexturaModelo(cargador.cargarTextura("imagen"));
+		ModeloConTextura modeloCubo = new ModeloConTextura(modelo, new TexturaModelo(
+				cargador.cargarTextura("imagen")));
 		
-		ModeloConTextura modeloConTextura = new ModeloConTextura(modelo, textura);
-		TexturaModelo texturaFinal = modeloConTextura.getTextura();
+		TexturaModelo texturaFinal = modeloCubo.getTextura();
 		texturaFinal.setShineDamper(10);
-		texturaFinal.setReflejo(1);
+		texturaFinal.setReflejo(0.5f);
 		
-		Entidad entidad = new Entidad(modeloConTextura, new Vector3f(0, 0, -50), 0, 0, 0, 1);
-		Luz luz = new Luz(new Vector3f(0, 0, -20), new Vector3f(1, 1, 1));
-		
+		Luz luz = new Luz(new Vector3f(0, 20, 20), new Vector3f(1, 1, 1));		
 		Camara camara = new Camara();
 		
-		while(!Display.isCloseRequested()) {
-			entidad.incrementarPosicion(0, 0, 0);
-			entidad.incrementarRotacion(0, 0.4f, 0);
+		List<Entidad> entidades = new ArrayList<Entidad>();
+		Random rnd = new Random();
+		
+		for(int i=0; i<100; i++) {
+			float x = rnd.nextFloat() * 100 - 50;
+			float y = rnd.nextFloat() * 100 - 50;
+			float z = rnd.nextFloat() * -300;
+			entidades.add(new Entidad(modeloCubo, new Vector3f(x, y, z), rnd.nextFloat() *130f, rnd.nextFloat() * 180f, 0f, 1f));
+		}
+		
+		RenderizadorMaster renderizador = new RenderizadorMaster();
+		while(!Display.isCloseRequested()) {			
 			camara.mover();
-			renderizador.preparar();
-			shader.comenzar();
-			shader.cargarLuz(luz);
-			shader.cargarMatrizCamara(camara);
-			renderizador.render(entidad, shader);
-			shader.parar();
+			
+			for(Entidad entidad : entidades) {
+				entidad.incrementarRotacion(0.1f, 1, 0.1f);
+				entidad.incrementarPosicion(0, 0, 0);
+				renderizador.procesarEntidad(entidad);
+			}
+			
+			renderizador.render(luz, camara);
 			ManagerPantalla.actualizarPantalla();
 		}		
 		
-		shader.limpiar();
+		renderizador.limpiar();
 		cargador.limpiar();
 		ManagerPantalla.cerrarPantalla();
 	}
