@@ -6,8 +6,8 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="D:/Spigot/Librerias/lwjgl-2.9.1/native/windows"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="D:/Spigot/Librerias/lwjgl-2.9.1/jar/lwjgl.jar"/>
-	<classpathentry kind="lib" path="D:/Spigot/Librerias/slick-util.jar"/>
-	<classpathentry kind="lib" path="D:/Spigot/Librerias/lwjgl-2.9.1/jar/lwjgl_util.jar"/>
+	<classpathentry kind="lib" path="D:/Spigot/git/test3D/test3D/lwjgl.jar"/>
+	<classpathentry kind="lib" path="D:/Spigot/git/test3D/test3D/lwjgl_util.jar"/>
+	<classpathentry kind="lib" path="D:/Spigot/git/test3D/test3D/slick-util.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

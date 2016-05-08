@@ -37,7 +37,7 @@ public class LoopPrincipal {
 		List<Entidad> entidades = new ArrayList<Entidad>();
 		Random rnd = new Random();
 		
-		for(int i=0; i<100; i++) {
+		for(int i=0; i<25; i++) {
 			float x = rnd.nextFloat() * 100 - 50;
 			float y = rnd.nextFloat() * 100 - 50;
 			float z = rnd.nextFloat() * -300;
