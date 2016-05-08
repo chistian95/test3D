@@ -1,12 +1,22 @@
 #version 400 core
 
-in vec3 color;
 in vec2 pasar_coordsTextura;
+in vec3 superficieNormal;
+in vec3 vectorLuz;
 
 out vec4 color_fuera;
 
 uniform sampler2D sampleadorTextura;
+uniform vec3 colorLuz;
 
 void main(void) {
-	color_fuera = texture(sampleadorTextura, pasar_coordsTextura);
+
+	vec3 uniNormal = normalize(superficieNormal);
+	vec3 uniVectorLuz = normalize(vectorLuz);
+	
+	float nDotl = dot(uniNormal, uniVectorLuz);
+	float brillo = max(nDotl, 0.0);
+	vec3 diffuse = brillo * colorLuz;
+	
+	color_fuera = vec4(diffuse, 1.0) * texture(sampleadorTextura, pasar_coordsTextura);
 }

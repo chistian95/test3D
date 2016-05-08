@@ -39,6 +39,7 @@ public class Renderizador {
 		GL30.glBindVertexArray(modeloRaw.getVaoID());
 		GL20.glEnableVertexAttribArray(0);
 		GL20.glEnableVertexAttribArray(1);
+		GL20.glEnableVertexAttribArray(2);
 		Matrix4f matrizTransformacion = Mates.crearMatrizTransformacion(entidad.getPosicion(), entidad.getRotX(), entidad.getRotY(), entidad.getRotZ(), entidad.getEscala());
 		shader.cargarMatrizTransformacion(matrizTransformacion);
 		
@@ -47,6 +48,7 @@ public class Renderizador {
 		GL11.glDrawElements(GL11.GL_TRIANGLES, modeloRaw.getVertexCont(), GL11.GL_UNSIGNED_INT, 0);
 		GL20.glDisableVertexAttribArray(0);
 		GL20.glDisableVertexAttribArray(1);
+		GL20.glDisableVertexAttribArray(2);
 		GL30.glBindVertexArray(0);
 	}
 	

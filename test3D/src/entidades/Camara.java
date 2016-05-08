@@ -4,6 +4,8 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector3f;
 
 public class Camara {
+	private static final float VELOCIDAD_CAMARA = 0.5f;
+	
 	private Vector3f posicion = new Vector3f();
 	private float pitch;
 	private float yaw;
@@ -13,22 +15,22 @@ public class Camara {
 	
 	public void mover() {
 		if(Keyboard.isKeyDown(Keyboard.KEY_W)) {
-			posicion.z -= 0.02f;
+			posicion.z -= VELOCIDAD_CAMARA;
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_S)) {
-			posicion.z += 0.02f;
+			posicion.z += VELOCIDAD_CAMARA;
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_D)) {
-			posicion.x += 0.02f;
+			posicion.x += VELOCIDAD_CAMARA;
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_A)) {
-			posicion.x -= 0.02f;
+			posicion.x -= VELOCIDAD_CAMARA;
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
-			posicion.y += 0.02f;
+			posicion.y += VELOCIDAD_CAMARA;
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
-			posicion.y -= 0.02f;
+			posicion.y -= VELOCIDAD_CAMARA;
 		}
 	}
 	

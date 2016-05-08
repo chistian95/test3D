@@ -24,11 +24,12 @@ public class Cargador {
 	private List<Integer> vbos = new ArrayList<Integer>();
 	private List<Integer> texturas = new ArrayList<Integer>();
 	
-	public ModeloRaw cargarEnVAO(float[] posiciones, float[] coordsTextura, int[] indices) {
+	public ModeloRaw cargarEnVAO(float[] posiciones, float[] coordsTextura, float[] normales, int[] indices) {
 		int vaoID = crearVAO();
 		bindIndicesBuffer(indices);
 		guardarDatosEnListaAtributos(0, 3, posiciones);
 		guardarDatosEnListaAtributos(1, 2, coordsTextura);
+		guardarDatosEnListaAtributos(2, 3, normales);
 		unbindVAO();
 		return new ModeloRaw(vaoID, indices.length);
 	}
