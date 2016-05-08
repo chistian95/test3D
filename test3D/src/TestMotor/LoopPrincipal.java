@@ -1,10 +1,14 @@
 package TestMotor;
 
 import org.lwjgl.opengl.Display;
+import org.lwjgl.util.vector.Vector3f;
 
+import entidades.Entidad;
 import modelos.ModeloConTextura;
 import modelos.ModeloRaw;
+import motorRenderizado.Cargador;
 import motorRenderizado.ManagerPantalla;
+import motorRenderizado.Renderizador;
 import shaders.ShaderEstatico;
 import texturas.TexturaModelo;
 
@@ -13,8 +17,8 @@ public class LoopPrincipal {
 		ManagerPantalla.crearPantalla();
 		
 		Cargador cargador = new Cargador();
-		Renderizador renderizador = new Renderizador();
 		ShaderEstatico shader = new ShaderEstatico();
+		Renderizador renderizador = new Renderizador(shader);
 		
 		float[] vertices = { 
 				-0.5f, 0.5f, 0f, //V0
@@ -39,10 +43,14 @@ public class LoopPrincipal {
 		TexturaModelo textura = new TexturaModelo(cargador.cargarTextura("imagen"));
 		ModeloConTextura modeloConTextura = new ModeloConTextura(modelo, textura);
 		
+		Entidad entidad = new Entidad(modeloConTextura, new Vector3f(0, 0, -1), 0, 0, 0, 1);
+		
 		while(!Display.isCloseRequested()) {
+			entidad.incrementarPosicion(0, 0, -0.01f);
+			entidad.incrementarRotacion(0, 1, 0);
 			renderizador.preparar();
 			shader.comenzar();
-			renderizador.render(modeloConTextura);
+			renderizador.render(entidad, shader);
 			shader.parar();
 			ManagerPantalla.actualizarPantalla();
 		}		

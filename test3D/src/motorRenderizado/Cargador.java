@@ -1,4 +1,4 @@
-package TestMotor;
+package motorRenderizado;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

@@ -3,14 +3,20 @@ package shaders;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.FloatBuffer;
 
+import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
+import org.lwjgl.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Vector3f;
 
 public abstract class ProgramaShader {
 	private int idPrograma;
 	private int idVertexShader;
 	private int idFragmentShader;
+	
+	private static FloatBuffer matrizBuffer = BufferUtils.createFloatBuffer(16);
 	
 	public ProgramaShader(String archivoVertex, String archivoFragment) {
 		idVertexShader = cargarShader(archivoVertex, GL20.GL_VERTEX_SHADER);
@@ -21,6 +27,13 @@ public abstract class ProgramaShader {
 		bindAtributos();
 		GL20.glLinkProgram(idPrograma);
 		GL20.glValidateProgram(idPrograma);
+		getAllUniformLocations();
+	}
+	
+	protected abstract void getAllUniformLocations();
+	
+	protected int getUniformLocation(String nombreUniform) {
+		return GL20.glGetUniformLocation(idPrograma, nombreUniform);
 	}
 	
 	public void parar() {
@@ -44,6 +57,28 @@ public abstract class ProgramaShader {
 	
 	protected void bindAtributos(int atributo, String nombreVariable) {
 		GL20.glBindAttribLocation(idPrograma, atributo, nombreVariable);
+	}
+	
+	protected void cargarFloat(int posicion, float valor) {
+		GL20.glUniform1f(posicion, valor);
+	}
+	
+	protected void cargarVector(int posicion, Vector3f vector) {
+		GL20.glUniform3f(posicion, vector.x, vector.y, vector.z);
+	}
+	
+	protected void cargarBoolean(int posicion, boolean valor) {
+		float cargar = 0;
+		if(valor) {
+			cargar = 1;
+		}
+		GL20.glUniform1f(posicion, cargar);
+	}
+	
+	protected void cargarMatriz(int posicion, Matrix4f matriz) {
+		matriz.store(matrizBuffer);
+		matrizBuffer.flip();
+		GL20.glUniformMatrix4(posicion, false, matrizBuffer);
 	}
 	
 	private static int cargarShader(String archivo, int tipo) {

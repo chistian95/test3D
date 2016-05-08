@@ -8,14 +8,14 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.PixelFormat;
 
 public class ManagerPantalla {
-	private static final int WIDTH = 720;
+	private static final int WIDTH = 1280;
 	private static final int HEIGHT = 720;
 	private static final int FPS_TOPE = 120;
 	
 	public static void crearPantalla() {		
-		ContextAttribs atributos = new ContextAttribs(3, 2);
-		atributos.withForwardCompatible(true);
-		atributos.withProfileCore(true);
+		ContextAttribs atributos = new ContextAttribs(3, 2)
+		.withForwardCompatible(true)
+		.withProfileCore(true);
 		
 		try {
 			Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));

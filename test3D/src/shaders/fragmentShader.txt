@@ -1,5 +1,6 @@
 #version 400 core
 
+in vec3 color;
 in vec2 pasar_coordsTextura;
 
 out vec4 color_fuera;
