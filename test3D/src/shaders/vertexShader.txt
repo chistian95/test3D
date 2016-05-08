@@ -7,6 +7,7 @@ in vec3 normal;
 out vec2 pasar_coordsTextura;
 out vec3 superficieNormal;
 out vec3 vectorLuz;
+out vec3 vectorCamara;
 
 uniform mat4 matrizTransformacion;
 uniform mat4 matrizProyeccion;
@@ -21,4 +22,5 @@ void main(void) {
 	
 	superficieNormal = (matrizTransformacion * vec4(normal, 0.0)).xyz;
 	vectorLuz = posicionLuz - posicionMundo.xyz;
+	vectorCamara = (inverse(matrizCamara) * vec4(0.0, 0.0, 0.0, 1.0)).xyz - posicionMundo.xyz;
 }

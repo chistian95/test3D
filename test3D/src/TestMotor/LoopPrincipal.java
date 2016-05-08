@@ -27,6 +27,9 @@ public class LoopPrincipal {
 		TexturaModelo textura = new TexturaModelo(cargador.cargarTextura("imagen"));
 		
 		ModeloConTextura modeloConTextura = new ModeloConTextura(modelo, textura);
+		TexturaModelo texturaFinal = modeloConTextura.getTextura();
+		texturaFinal.setShineDamper(10);
+		texturaFinal.setReflejo(1);
 		
 		Entidad entidad = new Entidad(modeloConTextura, new Vector3f(0, 0, -50), 0, 0, 0, 1);
 		Luz luz = new Luz(new Vector3f(0, 0, -20), new Vector3f(1, 1, 1));

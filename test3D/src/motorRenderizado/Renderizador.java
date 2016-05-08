@@ -12,6 +12,7 @@ import herramientas.Mates;
 import modelos.ModeloConTextura;
 import modelos.ModeloRaw;
 import shaders.ShaderEstatico;
+import texturas.TexturaModelo;
 
 public class Renderizador {
 	private static final float FOV = 70;
@@ -42,7 +43,8 @@ public class Renderizador {
 		GL20.glEnableVertexAttribArray(2);
 		Matrix4f matrizTransformacion = Mates.crearMatrizTransformacion(entidad.getPosicion(), entidad.getRotX(), entidad.getRotY(), entidad.getRotZ(), entidad.getEscala());
 		shader.cargarMatrizTransformacion(matrizTransformacion);
-		
+		TexturaModelo textura = modelo.getTextura();
+		shader.cargarBrillo(textura.getShineDamper(), textura.getReflejo());
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, modelo.getTextura().getIdTextura());
 		GL11.glDrawElements(GL11.GL_TRIANGLES, modeloRaw.getVertexCont(), GL11.GL_UNSIGNED_INT, 0);

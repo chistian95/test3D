@@ -15,6 +15,8 @@ public class ShaderEstatico extends ProgramaShader {
 	private int posicion_matrizCamara;
 	private int posicion_posicionLuz;
 	private int posicion_colorLuz;
+	private int posicion_shineDamper;
+	private int posicion_reflejo;
 	
 	public ShaderEstatico() {
 		super(ARCHIVO_VERTEX, ARCHIVO_FRAGMENT);
@@ -34,6 +36,13 @@ public class ShaderEstatico extends ProgramaShader {
 		posicion_matrizCamara = super.getUniformLocation("matrizCamara");
 		posicion_posicionLuz = super.getUniformLocation("posicionLuz");
 		posicion_colorLuz = super.getUniformLocation("colorLuz");
+		posicion_shineDamper = super.getUniformLocation("shineDamper");
+		posicion_reflejo = super.getUniformLocation("reflejo");
+	}
+	
+	public void cargarBrillo(float damper, float reflejo) {
+		super.cargarFloat(posicion_shineDamper, damper);
+		super.cargarFloat(posicion_reflejo, reflejo);
 	}
 	
 	public void cargarMatrizTransformacion(Matrix4f matriz) {

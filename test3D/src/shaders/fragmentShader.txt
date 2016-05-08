@@ -3,11 +3,14 @@
 in vec2 pasar_coordsTextura;
 in vec3 superficieNormal;
 in vec3 vectorLuz;
+in vec3 vectorCamara;
 
 out vec4 color_fuera;
 
 uniform sampler2D sampleadorTextura;
 uniform vec3 colorLuz;
+uniform float shineDamper;
+uniform float reflejo;
 
 void main(void) {
 
@@ -18,5 +21,14 @@ void main(void) {
 	float brillo = max(nDotl, 0.0);
 	vec3 diffuse = brillo * colorLuz;
 	
-	color_fuera = vec4(diffuse, 1.0) * texture(sampleadorTextura, pasar_coordsTextura);
+	vec3 uniVectorCamara = normalize(vectorCamara);
+	vec3 direccionLuz = -uniVectorLuz;
+	vec3 direccionReflejo = reflect(direccionLuz, uniNormal);
+	
+	float factorSpecular = dot(direccionReflejo, uniVectorCamara);
+	factorSpecular = max(factorSpecular, 0.0);
+	float factorDamper = pow(factorSpecular, shineDamper);
+	vec3 finalSpecular = factorDamper * reflejo * colorLuz;
+	
+	color_fuera = vec4(diffuse, 1.0) * texture(sampleadorTextura, pasar_coordsTextura) + vec4(finalSpecular, 1.0);
 }
