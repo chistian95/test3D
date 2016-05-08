@@ -8,9 +8,10 @@ out vec2 pasar_coordsTextura;
 
 uniform mat4 matrizTransformacion;
 uniform mat4 matrizProyeccion;
+uniform mat4 matrizCamara;
 
 void main(void) {
-	gl_Position = matrizProyeccion * matrizTransformacion * vec4(posicion, 1.0);
+	gl_Position = matrizProyeccion * matrizCamara * matrizTransformacion * vec4(posicion, 1.0);
 	pasar_coordsTextura = coordsTextura;
 	color = vec3(posicion.x+0.5, 0.0, posicion.y+0.5);
 }

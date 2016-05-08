@@ -3,6 +3,7 @@ package TestMotor;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
 
+import entidades.Camara;
 import entidades.Entidad;
 import modelos.ModeloConTextura;
 import modelos.ModeloRaw;
@@ -45,11 +46,15 @@ public class LoopPrincipal {
 		
 		Entidad entidad = new Entidad(modeloConTextura, new Vector3f(0, 0, -1), 0, 0, 0, 1);
 		
+		Camara camara = new Camara();
+		
 		while(!Display.isCloseRequested()) {
-			entidad.incrementarPosicion(0, 0, -0.01f);
-			entidad.incrementarRotacion(0, 1, 0);
+			//entidad.incrementarPosicion(0, 0, -0.01f);
+			//entidad.incrementarRotacion(0, 1, 0);
+			camara.mover();
 			renderizador.preparar();
 			shader.comenzar();
+			shader.cargarMatrizCamara(camara);
 			renderizador.render(entidad, shader);
 			shader.parar();
 			ManagerPantalla.actualizarPantalla();
