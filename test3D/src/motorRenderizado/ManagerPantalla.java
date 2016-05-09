@@ -10,7 +10,7 @@ import org.lwjgl.opengl.PixelFormat;
 public class ManagerPantalla {
 	private static final int WIDTH = 1280;
 	private static final int HEIGHT = 720;
-	private static final int FPS_TOPE = 144;
+	private static final int FPS_TOPE = 30;
 	
 	public static void crearPantalla() {		
 		ContextAttribs atributos = new ContextAttribs(3, 2)

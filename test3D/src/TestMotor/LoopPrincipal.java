@@ -28,7 +28,7 @@ public class LoopPrincipal {
 				cargador.cargarTextura("imagen")));
 		
 		TexturaModelo texturaFinal = modeloCubo.getTextura();
-		texturaFinal.setShineDamper(10);
+		texturaFinal.setShineDamper(20);
 		texturaFinal.setReflejo(0.5f);
 		
 		Luz luz = new Luz(new Vector3f(0, 20, 20), new Vector3f(1, 1, 1));		
@@ -37,7 +37,7 @@ public class LoopPrincipal {
 		List<Entidad> entidades = new ArrayList<Entidad>();
 		Random rnd = new Random();
 		
-		for(int i=0; i<25; i++) {
+		for(int i=0; i<15; i++) {
 			float x = rnd.nextFloat() * 100 - 50;
 			float y = rnd.nextFloat() * 100 - 50;
 			float z = rnd.nextFloat() * -300;
@@ -49,7 +49,7 @@ public class LoopPrincipal {
 			camara.mover();
 			
 			for(Entidad entidad : entidades) {
-				entidad.incrementarRotacion(0.1f, 1, 0.1f);
+				entidad.incrementarRotacion(1, 10, 1);
 				entidad.incrementarPosicion(0, 0, 0);
 				renderizador.procesarEntidad(entidad);
 			}
